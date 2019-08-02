@@ -1,0 +1,20 @@
+create table user(
+    id int primary key auto_increment,
+    name varchar(20),
+    hash varchar(40),
+    isAdmin boolean
+);
+
+# isAdmin is a boolean to check if the user is an admin or not
+
+create table post(
+    id int primary key auto_increment,
+    title varchar(50),
+    description varchar(200),
+    userId int,
+    foreign key (userId) references user(id) on delete cascade
+);
+
+# you may notice there is delete cascade in the foreign key. this is because if you do not use delete cascade and if you try to delete
+a record from user that already has a post it will not let you delete is as there are posts that have the foreign key of that user.
+so if you add delete cascade when you delete a user, it will delete all the posts that are associcated with the user.
