@@ -26,24 +26,25 @@ def profile():
 
 @app.route("/posts")
 def posts_list():
-    pass
+    return render_template("post_list.html")
 
+@app.route("/posts/create")
+def posts_create():
+    return render_template("post_create.html")
 
 @app.route("/posts/<id>/detail")
 def posts_detail(id):
-    pass
+    return render_template("post_detail.html")
 
 
 @app.route("/posts/<id>/update")
 def posts_update(id):
-    pass
+    return render_template("post_update.html")
 
 
 @app.route("/posts/<id>/delete")
 def posts_delete(id):
-    pass
-
-
+    return render_template("post_delete.html")
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
