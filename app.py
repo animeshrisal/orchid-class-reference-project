@@ -1,6 +1,7 @@
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session, request, flash, redirect
 import mysql.connector
 import os
+import hashlib
 
 app = Flask(__name__)
 
@@ -16,9 +17,44 @@ def index():
 def login():
     return render_template("login.html")
 
-@app.route("/register")
+@app.route("/register", methods = ['POST', 'GET'])
 def register():
-    return render_template("register.html")
+    errors = {}   
+    if request.method == "POST":
+        try:
+            name = request.form['name']
+            password = request.form['password']
+            
+            if name == "":
+                errors['name'] = "Name is empty"
+
+            if password == "":
+                errors['password'] = "Password is empty"
+
+            if len(errors) is not 0:
+                return render_template("register.html", errors=errors)
+            
+            cursor.execute("SELECT * from user where name = %s", (name,))
+            
+            if cursor.rowcount is not 0:
+                errors['exists'] = "User already exists"
+                return render_template("register.html", errors=errors)
+
+            hash_obj = hashlib.sha1(password.encode("utf8"))
+            hex_dig = hash_obj.hexdigest()
+
+            cursor.execute("INSERT INTO user(name, hash) values(%s, %s)", (name, hex_dig))
+            db.commit()
+            
+            return redirect('/login')
+            
+        except Exception as e:
+            flash(e)
+            return render_template("error.html")
+        
+        
+
+    return render_template("register.html", errors=errors)
 
 @app.route("/admin/login")
 def admin_login():
