@@ -167,9 +167,14 @@ def posts_update(id):
     return render_template("/posts/post_update.html", errors = errors, form_data=data)
 
 
-@app.route("/posts/<id>/delete")
-def posts_delete(id):
-        return render_template("post_delete.html")
+@app.route("/posts/<id>/delete", methods = ["POST", "GET"])
+def post_delete(id):
+    if request.method == "POST":
+        cursor.execute("DELETE from post where id = %s", (id,))
+        db.commit()
+        return redirect("/profile")
+
+    return render_template("/posts/post_delete.html", post_id = id)
 
 @app.route("/logout")
 def logout():
