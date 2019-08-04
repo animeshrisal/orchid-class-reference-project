@@ -74,7 +74,7 @@ def register():
             hash_obj = hashlib.sha1(password.encode("utf8"))
             hex_dig = hash_obj.hexdigest()
 
-            cursor.execute("INSERT INTO user(name, hash) values(%s, %s)", (name, hex_dig))
+            cursor.execute("INSERT INTO user(name, hash, isAdmin) values(%s, %s, 0)", (name, hex_dig))
             db.commit()
             
             return redirect('/login')
