@@ -106,12 +106,36 @@ def profile():
 def posts_list():
     return render_template("post_list.html")
 
-@app.route("/posts/create")
+@app.route("/posts/create", methods=["POST", "GET"])
 def posts_create():
-    return render_template("post_create.html")
+    errors = {}
+
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+
+        if title == "":
+            errors['title'] = "Title is empty"
+
+        if description == "":
+            errors['description'] = "Description is empty"
+
+        if len(errors) is not 0:
+            return render_template("/posts/post_create.html", errors=errors)
+        
+        cursor.execute(
+            "INSERT into post(title, description, userId) values(%s, %s, %s)",
+            (title, description, session["user_id"]),
+        )
+        db.commit()
+        return redirect("/profile")
+
+    return render_template("/posts/post_create.html", errors = errors)
+
 
 @app.route("/posts/<id>/detail")
 def posts_detail(id):
+    
     return render_template("post_detail.html")
 
 

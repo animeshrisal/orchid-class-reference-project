@@ -11,12 +11,12 @@
 
 <body>
     Welcome to your page {{session["user_name"]}}
-    <a href="/post/create">Add a todo list</a> <br />
+    <a href="/posts/create">Add a todo list</a> <br />
 
     {% for item in todo %}
-    <a href="/post/{{item[0]}}">Title: {{ item[1] }}</a>
-    <a href="/post/{{item[0]}}/update">Edit</a>
-    <a href="/post/{{item[0]}}/delete">Delete</a>
+    <a href="/posts/{{item[0]}}">Title: {{ item[1] }}</a>
+    <a href="/posts/{{item[0]}}/update">Edit</a>
+    <a href="/posts/{{item[0]}}/delete">Delete</a>
     <br />
     {% endfor %}
 

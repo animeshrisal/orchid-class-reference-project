@@ -10,7 +10,21 @@
 </head>
 
 <body>
+    <form action="/posts/create" method="POST">
+        <label>Title</label>
+        <input type="text" name="title" />
+        {% if errors["title"] != "" %}
+        {{ errors["title"] }}
+        {% endif %}
 
+        <label>Description</label>
+        <input type="text" name="description" />
+        {% if errors["description"] != "" %}
+        {{ errors["description"] }}
+        {% endif %}
+
+        <input type="submit" />
+    </form>
 </body>
 
 </html>
