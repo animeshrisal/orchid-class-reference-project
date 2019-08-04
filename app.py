@@ -13,9 +13,39 @@ cursor = db.cursor(buffered=True)
 def index():
     return render_template("index.html")
 
-@app.route("/login")
+@app.route("/login", methods=["POST", "GET"])
 def login():
-    return render_template("login.html")
+    errors = {}
+    if request.method == "POST":
+        try:
+            name = request.form['name']
+            password = request.form['password']
+            
+            hash_obj = hashlib.sha1(password.encode("utf8"))
+            hex_dig = hash_obj.hexdigest()
+
+            if name == "":
+                errors['name'] = "Name is empty"
+
+            if password == "":
+                errors['password'] = "Password is empty"
+
+            if len(errors) is not 0:
+                return render_template("register.html", errors=errors)
+
+            cursor.execute("SELECT * from user where name = %s and hash = %s", (name,hex_dig))
+
+            if cursor.rowcount == 0:
+                errors['user'] = "User does not exist"
+                return render_template("login.html", errors = errors)
+            else:
+                return redirect("/profile")
+            
+        except Exception as e:
+            flash(e)
+            return render_template("error.html")
+
+    return render_template("login.html", errors = errors)
 
 @app.route("/register", methods = ['POST', 'GET'])
 def register():
@@ -30,6 +60,7 @@ def register():
 
             if password == "":
                 errors['password'] = "Password is empty"
+
 
             if len(errors) is not 0:
                 return render_template("register.html", errors=errors)
