@@ -10,7 +10,17 @@
 </head>
 
 <body>
+    Welcome to your page {{session["user_name"]}}
+    <a href="/post/create">Add a todo list</a> <br />
 
+    {% for item in todo %}
+    <a href="/post/{{item[0]}}">Title: {{ item[1] }}</a>
+    <a href="/post/{{item[0]}}/update">Edit</a>
+    <a href="/post/{{item[0]}}/delete">Delete</a>
+    <br />
+    {% endfor %}
+
+    <a href="/logout">Logout</a>
 </body>
 
 </html>

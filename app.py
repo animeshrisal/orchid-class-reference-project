@@ -39,6 +39,9 @@ def login():
                 errors['user'] = "User does not exist"
                 return render_template("login.html", errors = errors)
             else:
+                data = cursor.fetchone()
+                session['user_id'] = data[0]
+                session['user_name'] = data[1]
                 return redirect("/profile")
             
         except Exception as e:
@@ -83,8 +86,6 @@ def register():
             flash(e)
             return render_template("error.html")
         
-        
-
     return render_template("register.html", errors=errors)
 
 @app.route("/admin/login")
@@ -97,7 +98,9 @@ def admin():
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html")
+    cursor.execute("SELECT * from post where userId = %s", (session['user_id'],))
+    data = cursor.fetchall()
+    return render_template("profile.html", todo=data)
 
 @app.route("/posts")
 def posts_list():
