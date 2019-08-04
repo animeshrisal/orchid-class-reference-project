@@ -124,6 +124,11 @@ def posts_update(id):
 def posts_delete(id):
         return render_template("post_delete.html")
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
     app.run(debug=True)
