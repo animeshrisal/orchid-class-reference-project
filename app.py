@@ -135,8 +135,9 @@ def posts_create():
 
 @app.route("/posts/<id>/detail")
 def posts_detail(id):
-    
-    return render_template("post_detail.html")
+    cursor.execute("SELECT * from post where id = %s", (id,))
+    data = cursor.fetchone()
+    return render_template("posts/post_detail.html", todo=data)
 
 
 @app.route("/posts/<id>/update", methods=["POST", "GET"])
