@@ -139,9 +139,32 @@ def posts_detail(id):
     return render_template("post_detail.html")
 
 
-@app.route("/posts/<id>/update")
+@app.route("/posts/<id>/update", methods=["POST", "GET"])
 def posts_update(id):
-    return render_template("post_update.html")
+    cursor.execute("SELECT * from post where id = %s", (id,))
+    data = cursor.fetchone()
+    errors = {}
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+
+        if title == "":
+            errors['title'] = "Enter a valid title"
+
+        if description == "":
+            errors['description'] = "Enter a valid description"
+
+        if len(errors) is not 0:
+            return render_template("/posts/post_update.html", errors=errors, form_data=data)
+
+        cursor.execute(
+            "update post set title = %s, description = %s where id = %s",
+            (title, description, id),
+        )
+        db.commit()
+        return redirect("/profile")
+
+    return render_template("/posts/post_update.html", errors = errors, form_data=data)
 
 
 @app.route("/posts/<id>/delete")

@@ -10,7 +10,21 @@
 </head>
 
 <body>
+    <form action="/posts/{{form_data[0]}}/update" method="POST">
+        <label>Title</label>
+        <input type="text" name="title" value="{{form_data[1]}}" />
+        {% if errors["title"] != "" %}
+        {{ errors["title"] }}
+        {% endif %}
 
+        <label>Description</label>
+        <input type="text" name="description" value={{form_data[2]}} />
+        {% if errors["description"] != "" %}
+        {{ errors["description"] }}
+        {% endif %}
+
+        <input type="submit" />
+    </form>
 </body>
 
 </html>
