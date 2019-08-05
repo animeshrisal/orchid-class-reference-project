@@ -10,7 +10,27 @@
 </head>
 
 <body>
+    <form action="/admin/login" method="POST">
+        <label>Name: </label>
+        <input type="text" name="name" />
 
+        {% if errors["name"] != "" %}
+        {{ errors["name"] }}
+        {% endif %}
+
+        <label>Password: </label>
+        <input type="password" name="password" />
+        {% if errors["name"] != "" %}
+        {{ errors["password"] }}
+        {% endif %}
+
+        {% if errors["user"] != "" %}
+        {{ errors["user"] }}
+        {% endif %}
+
+
+        <input type="submit" value="Login" />
+    </form>
 </body>
 
 </html>

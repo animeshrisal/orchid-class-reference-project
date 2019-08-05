@@ -88,9 +88,44 @@ def register():
         
     return render_template("register.html", errors=errors)
 
-@app.route("/admin/login")
+@app.route("/admin/login", methods = ["POST", "GET"])
 def admin_login():
-    return render_template("admin_login.html")
+    errors = {}
+    if request.method == "POST":
+        try:
+            name = request.form['name']
+            password = request.form['password']
+            
+            hash_obj = hashlib.sha1(password.encode("utf8"))
+            hex_dig = hash_obj.hexdigest()
+
+            if name == "":
+                errors['name'] = "Name is empty"
+
+            if password == "":
+                errors['password'] = "Password is empty"
+
+            if len(errors) is not 0:
+                return render_template("register.html", errors=errors)
+
+            cursor.execute("SELECT * from user where name = %s and hash = %s and isAdmin = 1", (name,hex_dig))
+
+            if cursor.rowcount == 0:
+                errors['user'] = "Admin does not exist"
+                return render_template("admin_login.html", errors = errors)
+            else:
+                data = cursor.fetchone()
+                session['user_id'] = data[0]
+                session['user_name'] = data[1]
+                session['is_admin'] = True
+                return redirect("/admin/dashboard")
+            
+        except Exception as e:
+            flash(e)
+            return render_template("error.html")
+
+    return render_template("admin_login.html", errors = errors)
+
 
 @app.route("/admin/dashboard")
 def admin():
