@@ -10,14 +10,15 @@
 </head>
 
 <body>
-    <h1>
-        Manage user
-    </h1>
+
+    <form method="POST" action="/admin/{{user_id}}/delete">
+        Delete user ?
+        <input type="submit" values="Delete user" />
+    </form>
 
 
     {% for user in users %}
-    {{ user[1]}} <a href="/admin/{{user[0]}}/delete">Delete</a> <br />
-
+    {{ user[1]}} <br />
     {% endfor %}
 </body>
 

@@ -129,7 +129,21 @@ def admin_login():
 
 @app.route("/admin/dashboard")
 def admin():
-    return render_template("admin.html")
+
+    cursor.execute("SELECT * from user where isAdmin = 0")
+    data = cursor.fetchall()
+    return render_template("admin.html", users = data)
+
+    
+@app.route("/admin/<id>/delete", methods = ["GET", "POST"])
+def admin_delete(id):
+    if request.method == "POST":
+        cursor.execute("DELETE from user where id = %s", (id,))
+        db.commit()
+        return redirect("/admin/dashboard")
+    
+    return render_template("admin_delete.html", user_id = id) 
+
 
 @app.route("/profile")
 def profile():
