@@ -1,26 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block content %}
+Welcome to your page {{session["user_name"]}}
+<a href="/posts/create">Add a todo list</a> <br />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <title>Document</title>
-</head>
+{% for item in todo %}
+<a href="/posts/{{item[0]}}/detail">Title: {{ item[1] }}</a>
+<a href="/posts/{{item[0]}}/update">Edit</a>
+<a href="/posts/{{item[0]}}/delete">Delete</a>
+<br />
+{% endfor %}
 
-<body>
-    Welcome to your page {{session["user_name"]}}
-    <a href="/posts/create">Add a todo list</a> <br />
-
-    {% for item in todo %}
-    <a href="/posts/{{item[0]}}/detail">Title: {{ item[1] }}</a>
-    <a href="/posts/{{item[0]}}/update">Edit</a>
-    <a href="/posts/{{item[0]}}/delete">Delete</a>
-    <br />
-    {% endfor %}
-
-    <a href="/logout">Logout</a>
-</body>
-
-</html>
+<a href="/logout">Logout</a>
+{% endblock %}

@@ -1,36 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block content %}
+<form action="/login" method="POST">
+    <label>Name: </label>
+    <input type="text" name="name" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <title>Document</title>
-</head>
+    {% if errors["name"] != "" %}
+    {{ errors["name"] }}
+    {% endif %}
 
-<body>
-    <form action="/login" method="POST">
-        <label>Name: </label>
-        <input type="text" name="name" />
+    <label>Password: </label>
+    <input type="password" name="password" />
+    {% if errors["name"] != "" %}
+    {{ errors["password"] }}
+    {% endif %}
 
-        {% if errors["name"] != "" %}
-        {{ errors["name"] }}
-        {% endif %}
-
-        <label>Password: </label>
-        <input type="password" name="password" />
-        {% if errors["name"] != "" %}
-        {{ errors["password"] }}
-        {% endif %}
-
-        {% if errors["user"] != "" %}
-        {{ errors["user"] }}
-        {% endif %}
+    {% if errors["user"] != "" %}
+    {{ errors["user"] }}
+    {% endif %}
 
 
-        <input type="submit" value="Login" />
-    </form>
-</body>
-
-</html>
+    <input type="submit" value="Login" />
+</form>
+{% endblock %}
