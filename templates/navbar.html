@@ -1,0 +1,18 @@
+<nav>
+    <ul class="container-nav">
+        <div class="nav-left">
+            <li>Home</li>
+        </div>
+        {% if session["user_id"] %}
+        <div class="nav-right">
+            <li><a href="/logout">Logout</a></li>
+        </div>
+
+        {% else %}
+        <div class="nav-right">
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+        </div>
+        {% endif %}
+    </ul>
+</nav>

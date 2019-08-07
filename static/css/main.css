@@ -1,0 +1,18 @@
+body{
+    background: white;
+}
+
+.container-nav{
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+}
+
+.container-nav li{
+    margin-left: 10px;
+}
+
+.nav-right {
+    display: flex;
+    flex-direction: row;
+}

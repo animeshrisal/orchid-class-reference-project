@@ -234,3 +234,4 @@ def logout():
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
     app.run(debug=True)
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
