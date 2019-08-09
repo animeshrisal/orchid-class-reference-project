@@ -2,6 +2,11 @@ body{
     background: white;
 }
 
+.content{
+    display: flex;
+    justify-content: center;
+}
+
 .container-nav{
     display: flex;
     list-style: none;
@@ -15,4 +20,36 @@ body{
 .nav-right {
     display: flex;
     flex-direction: row;
+    margin-right: 30px;
+}
+
+.content{
+    padding: 20px;
+}
+
+form{
+
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+
+}
+
+.profile{
+    display: flex;
+    flex-direction: column;
+}
+
+.heading{
+    align-self: center;
+}
+
+.heading-title{
+    align-self: center;
+}
+
+form input{
+    flex: 1;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }

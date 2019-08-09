@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-Welcome to your page {{session["user_name"]}}
-<a href="/posts/create">Add a todo list</a> <br />
 
-{% for item in todo %}
-<a href="/posts/{{item[0]}}/detail">Title: {{ item[1] }}</a>
-<a href="/posts/{{item[0]}}/update">Edit</a>
-<a href="/posts/{{item[0]}}/delete">Delete</a>
-<br />
-{% endfor %}
+<div class = "profile">
+    <div class = "heading">
+        <h1>Welcome to your page {{session["user_name"]}}</h1>
+    </div>
 
-<a href="/logout">Logout</a>
+    <div class = "heading-title">
+        <a href="/posts/create">Add a todo list</a> <br />
+    </div>
+    {% for item in todo %}
+    <a href="/posts/{{item[0]}}/detail">Title: {{ item[1] }}</a>
+    <a href="/posts/{{item[0]}}/update">Edit</a>
+    <a href="/posts/{{item[0]}}/delete">Delete</a>
+    <br />
+    {% endfor %}
+</div>
 {% endblock %}
