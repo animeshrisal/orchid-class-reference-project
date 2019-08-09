@@ -46,10 +46,17 @@ form{
 
 .heading-title{
     align-self: center;
+    margin-bottom: 20px;
 }
 
 form input{
     flex: 1;
     margin-top: 15px;
     margin-bottom: 10px;
+}
+
+.todo-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
