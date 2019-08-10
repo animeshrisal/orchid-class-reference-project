@@ -77,3 +77,5 @@ a record from user that already has a post it will not let you delete is as ther
 so if you add delete cascade when you delete a user, it will delete all the posts that are associcated with the user.
 
 To understand the source code please start reading the comments from the base.html file
+
+Warning: In the jinja template comments i have given a space between { and %. This is because jinja is trying to render it as a syntax and doesn't see it as a comment. Make sure there is not space in the code.
