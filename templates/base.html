@@ -15,6 +15,21 @@
             <div class="nav-left">
                 <li><a href="/">Home</a></li>
             </div>
+
+            <!-- 
+                Just like the {% for object in objects %} we did in class. We can also conditionally render content to the screen using
+                {% if  your_logic_here %}
+                    Your code
+                {% elif your_logic_here %}
+                    Your code
+                {% else %}
+                    Your code
+                {% endif %}
+
+                In the code below we are conditionally rendering the navbar to render the button login/register if the user is not logged in
+                or render logout button if the user is logged in
+            -->
+
             {% if session["user_id"] %}
             <div class="nav-right">
                 <li><a href="/logout">Logout</a></li>
