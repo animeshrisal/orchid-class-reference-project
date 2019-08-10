@@ -76,3 +76,4 @@ You may notice there is delete cascade in the foreign key. this is because if yo
 a record from user that already has a post it will not let you delete is as there are posts that have the foreign key of that user.
 so if you add delete cascade when you delete a user, it will delete all the posts that are associcated with the user.
 
+To understand the source code please start reading the comments from the base.html file

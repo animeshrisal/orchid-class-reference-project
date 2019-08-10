@@ -30,6 +30,36 @@
     </nav>
 
     <div class = "content">
+
+    <!--
+
+        Here you can see the jinja tags 
+        
+        {% block content %}
+        {% endblock %}
+        
+        What this does is allow you to use base.html as a reusable template instead of writing the same code all over again.
+        
+        If you see in the project we did in class, we rewrote the same code for <head> for each page. And if you were to make one chage to <head> in a page
+        then you would have to change it for each page, which can become hard to manage. 
+
+        Open any other html file and you will see
+
+        {% extends 'base.html' %}
+            {% block content %}
+                Your code here
+            {% endblock %}
+    
+        Wwhat happens here is when you open that page; lets say you open "/register", it will render the content of the base.html and in the section of 
+
+        {% block content %}
+        {% endblock %} 
+        
+        which you can see below, it will render the content of register.html
+
+        So any change you make to base.html, will affect all the pages
+    -->
+    
     {% block content %}
     {% endblock %}
     </div>
