@@ -65,3 +65,14 @@ form input{
     flex-direction: row;
     justify-content: space-around;
 }
+
+.admin-content{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.user-content{
+    display: flex;
+    justify-content: space-between;
+}

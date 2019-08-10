@@ -5,11 +5,12 @@
     Manage user
 </h1>
 
-
+    <div class = "user-list">
     {% for user in users %}
-    <div class="user-content">
-    {{ user[1]}} <a href="/admin/{{user[0]}}/delete">Delete</a> <br />
-    </div>
+        <div class="user-content">
+        {{ user[1]}} <a href="/admin/{{user[0]}}/delete">Delete</a> 
+        </div>
     {% endfor %}
+    </div>
 </div>
 {% endblock %}
