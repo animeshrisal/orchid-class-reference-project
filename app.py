@@ -9,12 +9,24 @@ db = mysql.connector.connect(host="localhost", user="root", passwd="", database=
 
 cursor = db.cursor(buffered=True)
 
+def check_authentication():
+    if session['user_id']:
+        return True
+    else:
+        return False
+        
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+
+    #The error variable is a dictionary that holds the values when an error occurs. 
+    #Since the page is loading for the first time there are no errors so its empty
+    #The code is the same for the other functions as well
+
     errors = {}
     if request.method == "POST":
         try:
@@ -24,17 +36,22 @@ def login():
             hash_obj = hashlib.sha1(password.encode("utf8"))
             hex_dig = hash_obj.hexdigest()
 
+            #If the names or password fields are empty it will create a dictionary that holds the error message
+            #You can create your own error messages such as password field not being long enough
             if name == "":
                 errors['name'] = "Name is empty"
 
             if password == "":
                 errors['password'] = "Password is empty"
 
+            #The logic checks how many errors are present in the error dictionary. If 0 that means no error, but if its more than 0 that means some error has occured
+            #If the error has occured then it will render the template along with the error. Any code below it will not execute
             if len(errors) is not 0:
                 return render_template("register.html", errors=errors)
 
             cursor.execute("SELECT * from user where name = %s and hash = %s", (name,hex_dig))
 
+            #Here it checks if the user exists or not
             if cursor.rowcount == 0:
                 errors['user'] = "User does not exist"
                 return render_template("login.html", errors = errors)
@@ -45,6 +62,8 @@ def login():
                 return redirect("/profile")
             
         except Exception as e:
+            #If any error occurs that hasn't been handled then it will render an error page
+            #The flash function will show you in the console what error has occured
             flash(e)
             return render_template("error.html")
 
@@ -77,6 +96,7 @@ def register():
             hash_obj = hashlib.sha1(password.encode("utf8"))
             hex_dig = hash_obj.hexdigest()
 
+            #When registering a user, they will be a customer and not an admin so the value of isAdmin is always set to 0
             cursor.execute("INSERT INTO user(name, hash, isAdmin) values(%s, %s, 0)", (name, hex_dig))
             db.commit()
             
@@ -108,6 +128,7 @@ def admin_login():
             if len(errors) is not 0:
                 return render_template("register.html", errors=errors)
 
+            #Here the query also checks if the user is an admin or not
             cursor.execute("SELECT * from user where name = %s and hash = %s and isAdmin = 1", (name,hex_dig))
 
             if cursor.rowcount == 0:
@@ -129,7 +150,11 @@ def admin_login():
 
 @app.route("/admin/dashboard")
 def admin():
+    #Check if the user is an admin or not. If not then redirect them to the login page
+    if 'is_admin' not in session.keys():
+        return redirect('/admin/login')
 
+    # Here it returns all the user that aren't an admin
     cursor.execute("SELECT * from user where isAdmin = 0")
     data = cursor.fetchall()
     return render_template("admin.html", users = data)
@@ -147,6 +172,10 @@ def admin_delete(id):
 
 @app.route("/profile")
 def profile():
+    
+    if 'user_id' not in session.keys():
+        return redirect('/login')
+
     cursor.execute("SELECT * from post where userId = %s", (session['user_id'],))
     data = cursor.fetchall()
     return render_template("profile.html", todo=data)
@@ -157,6 +186,9 @@ def posts_list():
 
 @app.route("/posts/create", methods=["POST", "GET"])
 def posts_create():
+    if 'user_id' not in session.keys():
+        return redirect('/login')
+
     errors = {}
 
     if request.method == "POST":
@@ -184,6 +216,9 @@ def posts_create():
 
 @app.route("/posts/<id>/detail")
 def posts_detail(id):
+    if 'user_id' not in session.keys():
+        return redirect('/login')
+
     cursor.execute("SELECT * from post where id = %s", (id,))
     data = cursor.fetchone()
     return render_template("posts/post_detail.html", todo=data)
@@ -191,6 +226,9 @@ def posts_detail(id):
 
 @app.route("/posts/<id>/update", methods=["POST", "GET"])
 def posts_update(id):
+    if 'user_id' not in session.keys():
+        return redirect('/login')
+
     cursor.execute("SELECT * from post where id = %s", (id,))
     data = cursor.fetchone()
     errors = {}
@@ -219,6 +257,9 @@ def posts_update(id):
 
 @app.route("/posts/<id>/delete", methods = ["POST", "GET"])
 def post_delete(id):
+    if 'user_id' not in session.keys():
+        return redirect('/login')
+
     if request.method == "POST":
         cursor.execute("DELETE from post where id = %s", (id,))
         db.commit()
