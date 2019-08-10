@@ -17,14 +17,14 @@
             </div>
 
             <!-- 
-                Just like the {% for object in objects %} we did in class. We can also conditionally render content to the screen using
-                {% if  your_logic_here %}
+                Just like the {% for object in objects %} {% endfor %} we did in class. We can also conditionally render content to the screen using
+                { % if  your_logic_here % }
                     Your code
-                {% elif your_logic_here %}
+                { % elif your_logic_here % }
                     Your code
-                {% else %}
+                { % else % }
                     Your code
-                {% endif %}
+                { % endif % }
 
                 In the code below we are conditionally rendering the navbar to render the button login/register if the user is not logged in
                 or render logout button if the user is logged in
@@ -50,8 +50,8 @@
 
         Here you can see the jinja tags 
         
-        {% block content %}
-        {% endblock %}
+        { % block content % }
+        { % endblock % }
         
         What this does is allow you to use base.html as a reusable template instead of writing the same code all over again.
         
@@ -60,15 +60,15 @@
 
         Open any other html file and you will see
 
-        {% extends 'base.html' %}
-            {% block content %}
+        { % extends 'base.html' % }
+            { % block content % }
                 Your code here
-            {% endblock %}
+            { % endblock % }
     
         Wwhat happens here is when you open that page; lets say you open "/register", it will render the content of the base.html and in the section of 
 
-        {% block content %}
-        {% endblock %} 
+        { % block content % }
+        { % endblock % } 
         
         which you can see below, it will render the content of register.html
 
